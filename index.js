@@ -3,7 +3,8 @@ var Mustache = require('mustache')
 
 function AnnotationPoller (opts) {
   this.pollInterval = opts.pollInterval || 3000
-  this.endpoint = '/api/v1/annotations'
+  this.pkg = opts.pkg // what package should we load annotations for?
+  this.endpoint = '/api/v1/annotations/' + this.pkg
   this.annotations = {}
   this.template = '<li id="annotation-{{id}}" style="{{status}}" data-fingerprint={{fingerprint}}><span>{{description}}</span><a href="{{{external-link}}}">{{external-link-text}}</a></li>'
   this.addonSelector = '#npm-addon-box'

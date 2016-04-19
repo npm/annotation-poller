@@ -3,7 +3,8 @@
 require('jsdom-global')()
 
 var annotationPoller = require('./')
-var endpoint = '/api/v1/annotations'
+var pkg = encodeURIComponent('cool module')
+var endpoint = '/api/v1/annotations/' + pkg
 var $ = require('jquery')
 
 require('jquery-mockjax')($)
@@ -32,7 +33,7 @@ describe('annotation-poller', function () {
       }]
     })
 
-    var poller = annotationPoller({pollInterval: 50})
+    var poller = annotationPoller({pollInterval: 50, pkg: pkg})
     poller.start(function () {
       poller.annotations['abc-123-abc'].status = 'warn'
       poller.annotations['abc-123-abc'].description = 'foo security integration'
@@ -55,7 +56,7 @@ describe('annotation-poller', function () {
       }]
     })
 
-    var poller = annotationPoller({pollInterval: 50})
+    var poller = annotationPoller({pollInterval: 50, pkg: pkg})
     poller.start(function () {
       $('ul li').length.should.equal(1)
       $('ul li').text().should.match(/my awesome integration/)
@@ -78,7 +79,7 @@ describe('annotation-poller', function () {
       }]
     })
 
-    var poller = annotationPoller({pollInterval: 50})
+    var poller = annotationPoller({pollInterval: 50, pkg: pkg})
     poller.start(function () {
       $.mockjax.clear()
       $.mockjax({
@@ -117,7 +118,7 @@ describe('annotation-poller', function () {
       }]
     })
 
-    var poller = annotationPoller({pollInterval: 50})
+    var poller = annotationPoller({pollInterval: 50, pkg: pkg})
     poller.start(function () {
       $.mockjax.clear()
       $.mockjax({
