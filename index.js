@@ -27,7 +27,7 @@ AnnotationPoller.prototype.start = function (loaded) {
           loaded = null
         }
       })
-    }, this.pollInterval)
+    }, _this.pollInterval)
   })
 }
 
