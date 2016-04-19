@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.1"></a>
+## [1.2.1](https://github.com/npm/annotation-poller/compare/v1.2.0...v1.2.1) (2016-04-19)
+
+
+### Bug Fixes
+
+* we were pulling with undefined interval ([d5913a7](https://github.com/npm/annotation-poller/commit/d5913a7))
+
+
+
 <a name="1.2.0"></a>
 # 1.2.0 (2016-04-19)
 
