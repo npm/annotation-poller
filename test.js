@@ -3,7 +3,7 @@
 require('jsdom-global')()
 
 var annotationPoller = require('./')
-var endpoint = '/api/v1/annotations.js'
+var endpoint = '/api/v1/annotations'
 var $ = require('jquery')
 
 require('jquery-mockjax')($)
@@ -12,9 +12,10 @@ $.mockjaxSettings.logging = false
 require('chai').should()
 
 describe('annotation-poller', function () {
-  beforeEach(function () {
+  beforeEach(function (cb) {
     document.body.innerHTML = '<ul class="box" id="npm-addon-box"></ul>'
     $.mockjax.clear()
+    return cb()
   })
 
   it('grabs an initial list of annotations when the page loads', function (done) {
@@ -27,7 +28,7 @@ describe('annotation-poller', function () {
         description: 'foo security integration',
         'external-link': 'http://example.com/foo-package/audit',
         'external-link-text': 'start audit',
-        timeout: 20
+        fingerprint: 'foo'
       }]
     })
 
@@ -50,7 +51,7 @@ describe('annotation-poller', function () {
         description: 'my awesome integration',
         'external-link': 'http://example.com/foo-package/audit',
         'external-link-text': 'start audit',
-        timeout: 20
+        fingerprint: 'bar'
       }]
     })
 
@@ -73,7 +74,7 @@ describe('annotation-poller', function () {
         description: 'my awesome integration',
         'external-link': 'http://example.com/foo-package/audit',
         'external-link-text': 'start audit',
-        timeout: 20
+        fingerprint: 'foo'
       }]
     })
 
@@ -89,7 +90,7 @@ describe('annotation-poller', function () {
           description: 'my awesome integration',
           'external-link': 'http://example.com/foo-package/audit',
           'external-link-text': 'view details',
-          timeout: 20
+          fingerprint: 'bar'
         }]
       })
 
@@ -112,7 +113,7 @@ describe('annotation-poller', function () {
         description: 'my awesome integration',
         'external-link': 'http://example.com/foo-package/audit',
         'external-link-text': 'start audit',
-        timeout: 20
+        fingerprint: 'foo'
       }]
     })
 
@@ -128,7 +129,7 @@ describe('annotation-poller', function () {
           description: 'my second integration',
           'external-link': 'http://example.com/foo-package/audit',
           'external-link-text': 'view details',
-          timeout: 20
+          fingerprint: 'foo'
         }]
       })
 

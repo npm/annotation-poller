@@ -3,9 +3,9 @@ var Mustache = require('mustache')
 
 function AnnotationPoller (opts) {
   this.pollInterval = opts.pollInterval || 3000
-  this.endpoint = '/api/v1/annotations.js'
+  this.endpoint = '/api/v1/annotations'
   this.annotations = {}
-  this.template = '<li id="annotation-{{id}}" style="{{status}}"><span>{{description}}</span><a href="{{{external-link}}}">{{external-link-text}}</a></li>'
+  this.template = '<li id="annotation-{{id}}" style="{{status}}" data-fingerprint={{fingerprint}}><span>{{description}}</span><a href="{{{external-link}}}">{{external-link-text}}</a></li>'
   this.addonSelector = '#npm-addon-box'
 }
 
@@ -58,7 +58,10 @@ AnnotationPoller.prototype.renderAnnotations = function () {
     annotationElement = $('#annotation-' + annotation.id)
     newAnnotationElement = Mustache.render(_this.template, annotation)
     if (annotationElement.length) {
-      annotationElement.replaceWith(newAnnotationElement)
+      // don't render the element unless its fingerprint has changed.
+      if (annotationElement.data('fingerprint') !== annotation.fingerprint) {
+        annotationElement.replaceWith(newAnnotationElement)
+      }
     } else {
       addonBox.append(newAnnotationElement)
     }
