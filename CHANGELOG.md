@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/npm/annotation-poller/compare/v1.2.1...v2.0.0) (2016-04-20)
+
+
+### Features
+
+* implement new DSL for annotations ([#5](https://github.com/npm/annotation-poller/issues/5)) ([7e4b723](https://github.com/npm/annotation-poller/commit/7e4b723))
+
+
+### BREAKING CHANGES
+
+* DSL for annotations is now different
+
+
+
 <a name="1.2.1"></a>
 ## [1.2.1](https://github.com/npm/annotation-poller/compare/v1.2.0...v1.2.1) (2016-04-19)
 
