@@ -37,7 +37,7 @@
     "standard-version": "^2.1.2"
   },
   "dependencies": {
-    "jquery": "^2.2.2",
-    "mustache": "^2.2.1"
+    "handlebars": "^4.0.5",
+    "jquery": "^2.2.2"
   }
 }

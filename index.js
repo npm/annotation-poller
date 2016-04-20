@@ -1,13 +1,57 @@
 var $ = require('jquery')
-var Mustache = require('mustache')
+var Handlebars = require('handlebars')
 
 function AnnotationPoller (opts) {
+  this._installExtensions()
+
   this.pollInterval = opts.pollInterval || 3000
   this.pkg = opts.pkg // what package should we load annotations for?
   this.endpoint = '/api/v1/annotations/' + this.pkg
   this.annotations = {}
-  this.template = '<li id="annotation-{{id}}" style="{{status}}" data-fingerprint={{fingerprint}}><span>{{description}}</span><a href="{{{external-link}}}">{{external-link-text}}</a></li>'
+  this.template = Handlebars.compile(
+    '<li id="annotation-{{id}}" style="{{status}}" data-fingerprint={{fingerprint}}>' +
+    '<ul class="addon-container">' +
+    '  <li><h3>{{name}}</h3></li>' +
+    '  {{#each rows}}' +
+    '    <li>' +
+    '    {{#hasKey this "image"}}' +
+    '      <img src="{{{image.url}}}" alt="{{image.text}}" />' +
+    '    {{/hasKey}}' +
+    '    {{#hasKey this "link"}}' +
+    '      {{#isArray this "link"}}' +
+    '        {{#each link}}' +
+    '          <a href="{{{url}}}">{{text}}</a>{{#unless @last}},{{/unless}}' +
+    '        {{/each}}' +
+    '        {{else}}' +
+    '          <a href="{{{link.url}}}">{{link.text}}</a>' +
+    '     {{/isArray}}' +
+    '     {{/hasKey}}' +
+    '     {{#hasKey this "text"}}' +
+    '       <span>{{{text}}}</span>' +
+    '     {{/hasKey}}' +
+    '  </li>' +
+    '  {{/each}}' +
+    '</ul>' +
+  '</li>')
   this.addonSelector = '#npm-addon-box'
+}
+
+AnnotationPoller.prototype._installExtensions = function () {
+  Handlebars.registerHelper('hasKey', function (obj, key, options) {
+    if (typeof obj === 'object' && obj[key]) {
+      return options.fn(this)
+    } else {
+      return options.inverse(this)
+    }
+  })
+
+  Handlebars.registerHelper('isArray', function (obj, key, options) {
+    if ($.isArray(obj[key])) {
+      return options.fn(this)
+    } else {
+      return options.inverse(this)
+    }
+  })
 }
 
 AnnotationPoller.prototype.start = function (loaded) {
@@ -53,11 +97,11 @@ AnnotationPoller.prototype.renderAnnotations = function () {
   var addonBox = $(this.addonSelector)
 
   Object.keys(this.annotations).forEach(function (key) {
-    annotation = _this.annotations[key]
+    annotation = _this._applyReplacements(_this.annotations[key])
     if (annotation._rendered) return
 
     annotationElement = $('#annotation-' + annotation.id)
-    newAnnotationElement = Mustache.render(_this.template, annotation)
+    newAnnotationElement = _this.template(annotation)
     if (annotationElement.length) {
       // don't render the element unless its fingerprint has changed.
       if (annotationElement.data('fingerprint') !== annotation.fingerprint) {
@@ -68,6 +112,42 @@ AnnotationPoller.prototype.renderAnnotations = function () {
     }
     annotation._rendered = true
   })
+}
+
+AnnotationPoller.prototype._applyReplacements = function (obj) {
+  var _this = this
+  if ($.isArray(obj.rows)) {
+    obj.rows.forEach(function (row) {
+      // bold any text in between *foo*.
+      if (row.text) {
+        row.text = _this._escape(row.text)
+        row.text = row.text.replace(/\*(.+)\*/, '<b>$1</b>')
+      }
+
+      // escape any HTML in links.
+      if ($.isArray(row.link)) {
+        row.link.forEach(function (l) {
+          if (l.url) l.url = _this._escape(l.url)
+        })
+      } else if (row.link) {
+        if (row.link.url) row.link.url = _this._escape(row.link.url)
+      }
+
+      // escape any HTML in image links.
+      if (row.image) {
+        if (row.image.url) row.image.url = _this._escape(row.image.url)
+      }
+    })
+  } else {
+    // we shouldn't allow obj.rows
+    // to be a non-array value.
+    obj.rows = []
+  }
+  return obj
+}
+
+AnnotationPoller.prototype._escape = function (text) {
+  return $('<div>').text(text).html()
 }
 
 module.exports = function (opts) {

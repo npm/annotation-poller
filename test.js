@@ -24,12 +24,19 @@ describe('annotation-poller', function () {
       url: endpoint,
       responseText: [{
         id: 'abc-123-abc',
-        status: 'warn',
-        'status-message': 'module not yet scanned',
-        description: 'foo security integration',
-        'external-link': 'http://example.com/foo-package/audit',
-        'external-link-text': 'start audit',
-        fingerprint: 'foo'
+        name: 'Awesome Integration',
+        fingerprint: 'a',
+        rows: [{
+          image: {
+            url: 'http://www.example.com/img',
+            text: 'image alt'
+          },
+          link: {
+            url: 'http://www.example.com',
+            text: 'my awesome link'
+          },
+          text: 'hello *world*!'
+        }]
       }]
     })
 
@@ -47,19 +54,64 @@ describe('annotation-poller', function () {
       url: endpoint,
       responseText: [{
         id: 'abc-123-abc',
-        status: 'warn',
-        'status-message': 'module not yet scanned',
-        description: 'my awesome integration',
-        'external-link': 'http://example.com/foo-package/audit',
-        'external-link-text': 'start audit',
-        fingerprint: 'bar'
+        name: 'second integration',
+        fingerprint: 'b',
+        rows: [{
+          link: {
+            url: 'http://www.example.com',
+            text: 'my awesome link'
+          }
+        }]
       }]
     })
 
     var poller = annotationPoller({pollInterval: 50, pkg: pkg})
     poller.start(function () {
-      $('ul li').length.should.equal(1)
-      $('ul li').text().should.match(/my awesome integration/)
+      $('.addon-container').length.should.equal(1)
+      $('.addon-container').text().should.match(/second integration/)
+      poller.stop()
+      return done()
+    })
+  })
+
+  it('replaces *text* with bold', function (done) {
+    $.mockjax({
+      url: endpoint,
+      responseText: [{
+        id: 'abc-123-abc',
+        name: 'second integration',
+        fingerprint: 'c',
+        rows: [{
+          text: 'my *awesome* <b>message</b>'
+        }]
+      }]
+    })
+
+    var poller = annotationPoller({pollInterval: 50, pkg: pkg})
+    poller.start(function () {
+      $('b').text().should.equal('awesome')
+      poller.stop()
+      return done()
+    })
+  })
+
+  it('handles an array of links', function (done) {
+    $.mockjax({
+      url: endpoint,
+      responseText: [{
+        id: 'abc-123-abc',
+        name: 'second integration',
+        fingerprint: 'd',
+        rows: [{
+          link: [{url: 'http://example.com', text: 'link 1'}, {url: 'http://2.example.com', text: 'link 2'}]
+        }]
+      }]
+    })
+
+    var poller = annotationPoller({pollInterval: 50, pkg: pkg})
+    poller.start(function () {
+      $('.addon-container:first').text().should.match(/link 1/)
+      $('.addon-container:last').text().should.match(/link 2/)
       poller.stop()
       return done()
     })
@@ -70,12 +122,14 @@ describe('annotation-poller', function () {
       url: endpoint,
       responseText: [{
         id: 'abc-123-abc',
-        status: 'warn',
-        'status-message': 'module not yet scanned',
-        description: 'my awesome integration',
-        'external-link': 'http://example.com/foo-package/audit',
-        'external-link-text': 'start audit',
-        fingerprint: 'foo'
+        name: 'third integration',
+        fingerprint: 'foo',
+        rows: [{
+          link: {
+            url: 'http://www.example.com',
+            text: 'initial link'
+          }
+        }]
       }]
     })
 
@@ -86,18 +140,20 @@ describe('annotation-poller', function () {
         url: endpoint,
         responseText: [{
           id: 'abc-123-abc',
-          status: 'green',
-          'status-message': 'module scanned',
-          description: 'my awesome integration',
-          'external-link': 'http://example.com/foo-package/audit',
-          'external-link-text': 'view details',
-          fingerprint: 'bar'
+          name: 'third integration',
+          fingerprint: 'bar',
+          rows: [{
+            link: {
+              url: 'http://www.example.com',
+              text: 'replaced link'
+            }
+          }]
         }]
       })
 
       setTimeout(function () {
-        $('ul li').length.should.equal(1)
-        $('ul li').text().should.match(/view details/)
+        $('.addon-container').length.should.equal(1)
+        $('.addon-container').text().should.match(/replaced link/)
         poller.stop()
         return done()
       }, 1000)
@@ -109,12 +165,14 @@ describe('annotation-poller', function () {
       url: endpoint,
       responseText: [{
         id: 'abc-123-abc',
-        status: 'warn',
-        'status-message': 'module not yet scanned',
-        description: 'my awesome integration',
-        'external-link': 'http://example.com/foo-package/audit',
-        'external-link-text': 'start audit',
-        fingerprint: 'foo'
+        name: 'third integration',
+        fingerprint: 'foo',
+        rows: [{
+          link: {
+            url: 'http://www.example.com',
+            text: 'initial link 1'
+          }
+        }]
       }]
     })
 
@@ -124,20 +182,22 @@ describe('annotation-poller', function () {
       $.mockjax({
         url: endpoint,
         responseText: [{
-          id: 'fed-234-abc',
-          status: 'green',
-          'status-message': 'module licensed',
-          description: 'my second integration',
-          'external-link': 'http://example.com/foo-package/audit',
-          'external-link-text': 'view details',
-          fingerprint: 'foo'
+          id: 'fed-123-abc',
+          name: 'third integration',
+          fingerprint: 'foo',
+          rows: [{
+            link: {
+              url: 'http://www.example.com',
+              text: 'initial link 2'
+            }
+          }]
         }]
       })
 
       setTimeout(function () {
-        $('ul li').length.should.equal(2)
-        $('ul li:first').text().should.match(/my awesome integration/)
-        $('ul li:last').text().should.match(/my second integration/)
+        $('.addon-container').length.should.equal(2)
+        $('.addon-container:first').text().should.match(/initial link 1/)
+        $('.addon-container:last').text().should.match(/initial link 2/)
         poller.stop()
         return done()
       }, 1000)
