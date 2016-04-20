@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/npm/annotation-poller/compare/v2.0.0...v2.0.1) (2016-04-20)
+
+
+### Bug Fixes
+
+* we're strong not bold ([f3dfaac](https://github.com/npm/annotation-poller/commit/f3dfaac))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/npm/annotation-poller/compare/v1.2.1...v2.0.0) (2016-04-20)
 
