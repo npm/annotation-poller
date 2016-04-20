@@ -89,7 +89,7 @@ describe('annotation-poller', function () {
 
     var poller = annotationPoller({pollInterval: 50, pkg: pkg})
     poller.start(function () {
-      $('b').text().should.equal('awesome')
+      $('strong').text().should.equal('awesome')
       poller.stop()
       return done()
     })

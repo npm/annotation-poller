@@ -121,7 +121,7 @@ AnnotationPoller.prototype._applyReplacements = function (obj) {
       // bold any text in between *foo*.
       if (row.text) {
         row.text = _this._escape(row.text)
-        row.text = row.text.replace(/\*(.+)\*/, '<b>$1</b>')
+        row.text = row.text.replace(/\*(.+)\*/, '<strong>$1</strong>')
       }
 
       // escape any HTML in links.
