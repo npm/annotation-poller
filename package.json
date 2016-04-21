@@ -1,14 +1,13 @@
 {
   "name": "annotation-poller",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "poll for annotations from external services, place them on packages",
   "main": "index.js",
   "scripts": {
-    "pretest": "standard",
+    "pretest": "handlebars annotation.mustache -f annotation.js",
     "test": "nyc mocha --timeout=10000 test.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "version": "standard-version",
-    "pretest": "handlebars annotation.mustache -f annotation.js"
+    "version": "standard-version"
   },
   "repository": {
     "type": "git",
@@ -42,6 +41,8 @@
     "jquery": "^2.2.2"
   },
   "ignore": {
-    "ignore": ["annotation.js"]
+    "ignore": [
+      "annotation.js"
+    ]
   }
 }
