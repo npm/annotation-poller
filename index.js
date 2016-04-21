@@ -1,5 +1,7 @@
 var $ = require('jquery')
-var Handlebars = require('handlebars')
+
+global.Handlebars = require('handlebars')
+require('./annotation.js')
 
 function AnnotationPoller (opts) {
   this._installExtensions()
@@ -8,31 +10,7 @@ function AnnotationPoller (opts) {
   this.pkg = opts.pkg // what package should we load annotations for?
   this.endpoint = '/api/v1/annotations/' + this.pkg
   this.annotations = {}
-  this.template = Handlebars.compile(
-    '<li id="annotation-{{id}}" style="{{status}}" data-fingerprint={{fingerprint}}>' +
-    '<ul class="addon-container">' +
-    '  <li><h3>{{name}}</h3></li>' +
-    '  {{#each rows}}' +
-    '    <li>' +
-    '    {{#hasKey this "image"}}' +
-    '      <img src="{{{image.url}}}" alt="{{image.text}}" />' +
-    '    {{/hasKey}}' +
-    '    {{#hasKey this "link"}}' +
-    '      {{#isArray this "link"}}' +
-    '        {{#each link}}' +
-    '          <a href="{{{url}}}">{{text}}</a>{{#unless @last}},{{/unless}}' +
-    '        {{/each}}' +
-    '        {{else}}' +
-    '          <a href="{{{link.url}}}">{{link.text}}</a>' +
-    '     {{/isArray}}' +
-    '     {{/hasKey}}' +
-    '     {{#hasKey this "text"}}' +
-    '       <span>{{{text}}}</span>' +
-    '     {{/hasKey}}' +
-    '  </li>' +
-    '  {{/each}}' +
-    '</ul>' +
-  '</li>')
+  this.template = Handlebars.templates['annotation.mustache']
   this.addonSelector = '#npm-addon-box'
 }
 
