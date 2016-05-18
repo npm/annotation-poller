@@ -46,5 +46,10 @@
     "ignore": [
       "annotation.js"
     ]
-  }
+  },
+  "files": [
+    "index.js",
+    "annotation.js",
+    "LICENSE.txt"
+  ]
 }
