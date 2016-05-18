@@ -120,7 +120,13 @@ AnnotationPoller.prototype._applyReplacements = function (obj) {
 
       // escape any HTML in image links.
       if (row.image) {
-        if (row.image.url) row.image.url = _this._escape(row.image.url)
+        if (!$.isArray(row.image)) {
+          row.image = [row.image]
+        }
+        row.image.forEach(function(img) {
+          if (img.url) img.url = _this._escape(img.url)
+          if (img.href) img.href = _this._escape(img.href)
+        })
       }
 
       // flatten the row object into an ordered

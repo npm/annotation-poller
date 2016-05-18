@@ -4,16 +4,23 @@
     {{#each rows}}
       <li>
       {{#each this}}
-        {{#isArray this}}
-          {{#each this}}
-            <a href="{{{url}}}">{{text}}</a>{{#unless @last}},{{/unless}}
-          {{/each}}
-        {{/isArray}}
         {{#hasKey this "_image"}}
-          <img src="{{{url}}}" alt="{{text}}" />
+          {{#each this}}
+            {{#hasKey this "href"}}
+            <a href="{{{href}}}" style="border: none;text-decoration: none;"><img src="{{{url}}}" alt="{{text}}" /></a>
+            {{else}}
+              <img src="{{{url}}}" alt="{{text}}" />
+            {{/hasKey}}
+          {{/each}}
         {{/hasKey}}
         {{#hasKey this "_link"}}
-          <a href="{{{url}}}">{{text}}</a>
+          {{#isArray this}}
+            {{#each this}}
+              <a href="{{{url}}}">{{text}}</a>{{#unless @last}},{{/unless}}
+            {{/each}}
+          {{else}}
+            <a href="{{{url}}}">{{text}}</a>
+          {{/isArray}}
         {{/hasKey}}
         {{#hasKey this "_text"}}
           <span>{{{text}}}</span>
