@@ -74,6 +74,20 @@ describe('annotation-poller', function () {
     })
   })
 
+  it('gracefully handles an upstream error', function (done) {
+    $.mockjax({
+      url: endpoint,
+      status: 500,
+      responseText: "ENOGOOD"
+    })
+
+    var poller = annotationPoller({pollInterval: 50, pkg: pkg})
+    poller.start(function () {
+      poller.stop()
+      return done()
+    })
+  })
+
   it('respects the element ordering', function (done) {
     $.mockjax({
       url: endpoint,

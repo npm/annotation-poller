@@ -35,22 +35,26 @@ AnnotationPoller.prototype._installExtensions = function () {
 AnnotationPoller.prototype.start = function (loaded) {
   var _this = this
   var updating = false
+  var poll = function () {
+    if (updating) return
+    updating = true
+    _this.getAnnotations(function () {
+      updating = false
+      _this.renderAnnotations()
+      if (loaded) {
+        loaded()
+        loaded = null
+      }
+    })
+  }
 
   $(document).ready(function () {
     this.interval = setInterval(function () {
-      if (updating) return
-      updating = true
-
-      _this.getAnnotations(function () {
-        updating = false
-        _this.renderAnnotations()
-        if (loaded) {
-          loaded()
-          loaded = null
-        }
-      })
+      poll()
     }, _this.pollInterval)
   })
+
+  poll()
 }
 
 AnnotationPoller.prototype.stop = function () {
@@ -63,6 +67,7 @@ AnnotationPoller.prototype.getAnnotations = function (cb) {
     $.each(data, function (i, annotation) {
       _this.annotations[annotation.id] = annotation
     })
+  }).always(function () {
     return cb()
   })
 }
