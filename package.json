@@ -1,6 +1,6 @@
 {
   "name": "annotation-poller",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "poll for annotations from external services, place them on packages",
   "main": "index.js",
   "scripts": {
