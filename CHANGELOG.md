@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/npm/annotation-poller/compare/v2.0.2...v2.1.0) (2016-05-18)
+
+
+### Bug Fixes
+
+* immediately poll when we load, don't stop polling on failure ([#6](https://github.com/npm/annotation-poller/issues/6)) ([fe82a02](https://github.com/npm/annotation-poller/commit/fe82a02))
+
+
+### Features
+
+* maintain element ordering in UI ([#7](https://github.com/npm/annotation-poller/issues/7)) ([d440f01](https://github.com/npm/annotation-poller/commit/d440f01))
+
+
+
 <a name="2.0.2"></a>
 ## [2.0.2](https://github.com/npm/annotation-poller/compare/v2.0.1...v2.0.2) (2016-04-21)
 
