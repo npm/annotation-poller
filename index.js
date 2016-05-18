@@ -23,8 +23,8 @@ AnnotationPoller.prototype._installExtensions = function () {
     }
   })
 
-  Handlebars.registerHelper('isArray', function (obj, key, options) {
-    if ($.isArray(obj[key])) {
+  Handlebars.registerHelper('isArray', function (obj, options) {
+    if ($.isArray(obj)) {
       return options.fn(this)
     } else {
       return options.inverse(this)
@@ -95,7 +95,9 @@ AnnotationPoller.prototype.renderAnnotations = function () {
 AnnotationPoller.prototype._applyReplacements = function (obj) {
   var _this = this
   if ($.isArray(obj.rows)) {
-    obj.rows.forEach(function (row) {
+    obj.rows.forEach(function (row, i) {
+      var flattenedRow = []
+
       // bold any text in between *foo*.
       if (row.text) {
         row.text = _this._escape(row.text)
@@ -115,12 +117,25 @@ AnnotationPoller.prototype._applyReplacements = function (obj) {
       if (row.image) {
         if (row.image.url) row.image.url = _this._escape(row.image.url)
       }
+
+      // flatten the row object into an ordered
+      // set of elements. In our template we output
+      // the elements in the order that the keys appear.
+      Object.keys(row).forEach(function (key) {
+        var element = row[key]
+        if (typeof element === 'string') element = {text: element}
+        element['_' + key] = true
+        flattenedRow.push(element)
+      })
+
+      obj.rows[i] = flattenedRow
     })
   } else {
     // we shouldn't allow obj.rows
     // to be a non-array value.
     obj.rows = []
   }
+
   return obj
 }
 

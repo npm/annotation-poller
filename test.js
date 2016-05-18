@@ -74,6 +74,36 @@ describe('annotation-poller', function () {
     })
   })
 
+  it('respects the element ordering', function (done) {
+    $.mockjax({
+      url: endpoint,
+      responseText: [{
+        id: 'abc-123-abc',
+        name: 'second integration',
+        fingerprint: 'bb',
+        rows: [{
+          link: {
+            url: 'http://www.example.com',
+            text: 'my awesome link'
+          },
+          image: {
+            url: 'http://www.example.com/img',
+            text: 'image alt'
+          }
+        }]
+      }]
+    })
+
+    var poller = annotationPoller({pollInterval: 50, pkg: pkg})
+    poller.start(function () {
+      var children = $('.addon-container li:eq(1)').children()
+      $(children[0]).is('a').should.equal(true)
+      $(children[1]).is('img').should.equal(true)
+      poller.stop()
+      return done()
+    })
+  })
+
   it('replaces *text* with bold', function (done) {
     $.mockjax({
       url: endpoint,

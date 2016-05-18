@@ -3,22 +3,23 @@
     <li><h3>{{name}}</h3></li>
     {{#each rows}}
       <li>
-        {{#hasKey this "image"}}
-          <img src="{{{image.url}}}" alt="{{image.text}}" />
-        {{/hasKey}}
-        {{#hasKey this "link"}}
-        {{#isArray this "link"}}
-        {{#each link}}
-          <a href="{{{url}}}">{{text}}</a>{{#unless @last}},{{/unless}}
-        {{/each}}
-        {{else}}
-          <a href="{{{link.url}}}">{{link.text}}</a>
+      {{#each this}}
+        {{#isArray this}}
+          {{#each this}}
+            <a href="{{{url}}}">{{text}}</a>{{#unless @last}},{{/unless}}
+          {{/each}}
         {{/isArray}}
+        {{#hasKey this "_image"}}
+          <img src="{{{url}}}" alt="{{text}}" />
         {{/hasKey}}
-          {{#hasKey this "text"}}
-            <span>{{{text}}}</span>
-          {{/hasKey}}
-       </li>
-     {{/each}}
+        {{#hasKey this "_link"}}
+          <a href="{{{url}}}">{{text}}</a>
+        {{/hasKey}}
+        {{#hasKey this "_text"}}
+          <span>{{{text}}}</span>
+        {{/hasKey}}
+      {{/each}}
+      </li>
+    {{/each}}
   </ul>
 </li>
