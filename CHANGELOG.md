@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.3.0"></a>
+# [2.3.0](https://github.com/npm/annotation-poller/compare/v2.2.0...v2.3.0) (2016-05-19)
+
+
+### Features
+
+* allow both text and links to be provided in an array of links ([#13](https://github.com/npm/annotation-poller/issues/13)) ([5dd14e3](https://github.com/npm/annotation-poller/commit/5dd14e3))
+* Links should open new external windows/tabs ([#11](https://github.com/npm/annotation-poller/issues/11)) ([0e7236c](https://github.com/npm/annotation-poller/commit/0e7236c))
+
+
+
 <a name="2.2.0"></a>
 # [2.2.0](https://github.com/npm/annotation-poller/compare/v2.1.1...v2.2.0) (2016-05-18)
 
