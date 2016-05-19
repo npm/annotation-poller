@@ -7,7 +7,7 @@
         {{#hasKey this "_image"}}
           {{#each this}}
             {{#hasKey this "href"}}
-            <a href="{{{href}}}" style="border: none;text-decoration: none;"><img src="{{{url}}}" alt="{{text}}" /></a>
+            <a target="_blank" href="{{{href}}}" style="border: none;text-decoration: none;"><img src="{{{url}}}" alt="{{text}}" /></a>
             {{else}}
               <img src="{{{url}}}" alt="{{text}}" />
             {{/hasKey}}
@@ -16,7 +16,7 @@
         {{#hasKey this "_link"}}
           {{#isArray this}}
             {{#each this}}
-              <a href="{{{url}}}">{{text}}</a>{{#unless @last}},{{/unless}}
+              <a target="_blank" href="{{{url}}}">{{text}}</a>{{#unless @last}},{{/unless}}
             {{/each}}
           {{else}}
             <a href="{{{url}}}">{{text}}</a>
