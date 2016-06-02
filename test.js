@@ -6,6 +6,7 @@ var annotationPoller = require('./')
 var pkg = encodeURIComponent('cool module')
 var endpoint = '/api/v1/annotations/' + pkg
 var $ = require('jquery')
+var uuid = require('uuid')
 
 require('jquery-mockjax')($)
 $.mockjaxSettings.logging = false
@@ -25,7 +26,7 @@ describe('annotation-poller', function () {
       responseText: [{
         id: 'abc-123-abc',
         name: 'Awesome Integration',
-        fingerprint: 'a',
+        fingerprint: uuid.v4(),
         rows: [{
           image: {
             url: 'http://www.example.com/img',
@@ -55,7 +56,7 @@ describe('annotation-poller', function () {
       responseText: [{
         id: 'abc-123-abc',
         name: 'second integration',
-        fingerprint: 'b',
+        fingerprint: uuid.v4(),
         rows: [{
           link: {
             url: 'http://www.example.com',
@@ -94,7 +95,7 @@ describe('annotation-poller', function () {
       responseText: [{
         id: 'abc-123-abc',
         name: 'second integration',
-        fingerprint: 'bb',
+        fingerprint: uuid.v4(),
         rows: [{
           link: {
             url: 'http://www.example.com',
@@ -124,7 +125,7 @@ describe('annotation-poller', function () {
       responseText: [{
         id: 'abc-123-abc',
         name: 'second integration',
-        fingerprint: 'c',
+        fingerprint: uuid.v4(),
         rows: [{
           text: 'my *awesome* <b>message</b>'
         }]
@@ -139,13 +140,34 @@ describe('annotation-poller', function () {
     })
   })
 
+  it('replaces \\n with <br />', function (done) {
+    $.mockjax({
+      url: endpoint,
+      responseText: [{
+        id: 'abc-123-abc',
+        name: 'second integration',
+        fingerprint: uuid.v4(),
+        rows: [{
+          text: '*my\nawesome\nui*'
+        }]
+      }]
+    })
+
+    var poller = annotationPoller({pollInterval: 50, pkg: pkg})
+    poller.start(function () {
+      $('strong').html().should.equal('my<br>awesome<br>ui')
+      poller.stop()
+      return done()
+    })
+  })
+
   it('handles an array of links', function (done) {
     $.mockjax({
       url: endpoint,
       responseText: [{
         id: 'abc-123-abc',
         name: 'second integration',
-        fingerprint: 'd',
+        fingerprint: uuid.v4(),
         rows: [{
           link: [{url: 'http://example.com', text: 'link 1'}, {url: 'http://2.example.com', text: 'link 2'}]
         }]
@@ -254,7 +276,7 @@ describe('annotation-poller', function () {
       responseText: [{
         id: 'test-image-render',
         name: 'image render test integration',
-        fingerprint: 'tir',
+        fingerprint: uuid.v4(),
         rows: [{
           image: {
             url: 'http://www.example.com/img.png',
@@ -279,7 +301,7 @@ describe('annotation-poller', function () {
       responseText: [{
         id: 'test-image-link',
         name: 'image link test integration',
-        fingerprint: 'til',
+        fingerprint: uuid.v4(),
         rows: [{
           image: {
             url: 'http://www.example.com/img.png',
@@ -305,7 +327,7 @@ describe('annotation-poller', function () {
       responseText: [{
         id: 'test-multi-mixed-image-links',
         name: 'mixed multi image links',
-        fingerprint: 'tmmil',
+        fingerprint: uuid.v4(),
         rows: [{
           image: [{
             url: 'http://www.example.com/img1.png',

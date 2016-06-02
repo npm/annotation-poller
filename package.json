@@ -36,7 +36,8 @@
     "mocha": "^2.4.5",
     "nyc": "^6.4.4",
     "standard": "^7.1.0",
-    "standard-version": "^2.2.1"
+    "standard-version": "^2.2.1",
+    "uuid": "^2.0.2"
   },
   "dependencies": {
     "handlebars": "^4.0.5",

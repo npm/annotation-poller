@@ -103,10 +103,10 @@ AnnotationPoller.prototype._applyReplacements = function (obj) {
     obj.rows.forEach(function (row, i) {
       var flattenedRow = []
 
-      // bold any text in between *foo*.
+      // bold any text in between *foo* and parse newlines.
       if (row.text) {
         row.text = _this._escape(row.text)
-        row.text = row.text.replace(/\*(.+)\*/, '<strong>$1</strong>')
+        row.text = row.text.replace(/\*([\s\S]+)\*/, '<strong>$1</strong>').replace(/\n/g, '<br/>')
       }
 
       // escape any HTML in links.
