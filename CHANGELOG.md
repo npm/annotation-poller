@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.4.0"></a>
+# [2.4.0](https://github.com/npm/annotation-poller/compare/v2.3.0...v2.4.0) (2016-06-02)
+
+
+### Features
+
+* allow width and height to be suggested by the upstream API ([#17](https://github.com/npm/annotation-poller/issues/17)) ([fdbe16f](https://github.com/npm/annotation-poller/commit/fdbe16f))
+* support newline characters ([#16](https://github.com/npm/annotation-poller/issues/16)) ([65259b4](https://github.com/npm/annotation-poller/commit/65259b4))
+
+
+
 <a name="2.3.0"></a>
 # [2.3.0](https://github.com/npm/annotation-poller/compare/v2.2.0...v2.3.0) (2016-05-19)
 
