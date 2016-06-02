@@ -10,12 +10,12 @@ function AnnotationPoller (opts) {
   this.pkg = opts.pkg // what package should we load annotations for?
   this.endpoint = '/api/v1/annotations/' + this.pkg
   this.annotations = {}
-  this.template = Handlebars.templates['annotation.mustache']
+  this.template = global.Handlebars.templates['annotation.mustache']
   this.addonSelector = '#npm-addon-box'
 }
 
 AnnotationPoller.prototype._installExtensions = function () {
-  Handlebars.registerHelper('hasKey', function (obj, key, options) {
+  global.Handlebars.registerHelper('hasKey', function (obj, key, options) {
     if (typeof obj === 'object' && obj[key]) {
       return options.fn(this)
     } else {
@@ -23,7 +23,7 @@ AnnotationPoller.prototype._installExtensions = function () {
     }
   })
 
-  Handlebars.registerHelper('isArray', function (obj, options) {
+  global.Handlebars.registerHelper('isArray', function (obj, options) {
     if ($.isArray(obj)) {
       return options.fn(this)
     } else {
@@ -123,7 +123,7 @@ AnnotationPoller.prototype._applyReplacements = function (obj) {
         if (!$.isArray(row.image)) {
           row.image = [row.image]
         }
-        row.image.forEach(function(img) {
+        row.image.forEach(function (img) {
           if (img.url) img.url = _this._escape(img.url)
           if (img.href) img.href = _this._escape(img.href)
         })

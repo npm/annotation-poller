@@ -7,9 +7,9 @@
         {{#hasKey this "_image"}}
           {{#each this}}
             {{#hasKey this "href"}}
-            <a target="_blank" href="{{{href}}}" style="border: none;text-decoration: none;"><img src="{{{url}}}" alt="{{text}}" /></a>
+              <a href="{{{href}}}" style="border: none;text-decoration: none;"><img src="{{{url}}}" alt="{{text}}" {{#if fullSize}}style="height:auto;width:100%;"{{/if}} /></a>
             {{else}}
-              <img src="{{{url}}}" alt="{{text}}" />
+              <img src="{{{url}}}" alt="{{text}}" {{#if width}}style="height:{{height}};width:{{width}};"{{/if}} />
             {{/hasKey}}
           {{/each}}
         {{/hasKey}}

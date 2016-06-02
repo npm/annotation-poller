@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "handlebars annotation.mustache -f annotation.js",
-    "pretest": "npm run build",
+    "pretest": "npm run build; standard",
     "prepublish": "npm run build",
     "test": "nyc mocha --timeout=10000 test.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
@@ -43,8 +43,8 @@
     "handlebars": "^4.0.5",
     "jquery": "^2.2.2"
   },
-  "ignore": {
-    "ignore": [
+  "nyc": {
+    "exclude": [
       "annotation.js"
     ]
   },
