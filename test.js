@@ -8,7 +8,7 @@ var endpoint = '/api/v1/annotations/' + pkg
 var $ = require('jquery')
 var uuid = require('uuid')
 
-require('jquery-mockjax')($)
+require('jquery-mockjax')($, window)
 $.mockjaxSettings.logging = false
 
 require('chai').should()
