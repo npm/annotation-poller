@@ -37,7 +37,7 @@
     "nyc": "^7.1.0",
     "standard": "^7.1.2",
     "standard-version": "^3.0.0",
-    "uuid": "^2.0.2"
+    "uuid": "^3.0.1"
   },
   "dependencies": {
     "handlebars": "^4.0.5",
