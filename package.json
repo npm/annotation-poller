@@ -35,7 +35,7 @@
     "jsdom-global": "^2.0.0",
     "mocha": "^3.0.1",
     "nyc": "^7.1.0",
-    "standard": "^7.1.2",
+    "standard": "^9.0.0",
     "standard-version": "^3.0.0",
     "uuid": "^2.0.2"
   },
