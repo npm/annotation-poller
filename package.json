@@ -32,7 +32,7 @@
     "coveralls": "^2.11.12",
     "jquery-mockjax": "^2.2.0",
     "jsdom": "^9.4.1",
-    "jsdom-global": "^2.0.0",
+    "jsdom-global": "^3.0.2",
     "mocha": "^3.0.1",
     "nyc": "^7.1.0",
     "standard": "^7.1.2",
