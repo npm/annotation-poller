@@ -28,7 +28,7 @@
   "homepage": "https://github.com/npm/annotation-poller#readme",
   "devDependencies": {
     "browserify": "^13.1.0",
-    "chai": "^3.5.0",
+    "chai": "^4.0.1",
     "coveralls": "^2.11.12",
     "jquery-mockjax": "^2.2.0",
     "jsdom": "^9.4.1",
